@@ -1,0 +1,989 @@
+D:\Windows\lib\require-admin.ps1 : Este script requiere privilegios de Administrador
+En D:\Windows\setup-windows.ps1: 8 Carácter: 1
++ . "$PSScriptRoot/lib/require-admin.ps1"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,require-admin.ps1
+
+
+¡ï¸  SETUP WINDOWS â€e[0m
+
+¡ï¸  FASE 1: ConfiguraciÃ³n inicial del sistemae[0m
+
+¡ï¸  Ejecutando 01-ignore-linux-disks.ps1e[0m
+En D:\Windows\install\01-ignore-linux-disks.ps1: 75 Carácter: 43
++         log_error "Error bloqueando disco $diskNumber: $_"
++                                           ~~~~~~~~~~~~
+La referencia de variable no es válida. El carácter ':' no va seguido de un carácter de nombre de variable válido.
+Considere la posibilidad de usar ${} para delimitar el nombre.
+    + CategoryInfo          : ParserError: (:) [], ParseException
+    + FullyQualifiedErrorId : InvalidVariableReferenceWithDrive
+
+
+¡ï¸  Ejecutando 02-connect-server-samba.ps1e[0m
+
+CMDKEY: credencial agregada correctamente.
+ConexiÃ³n SMB configurada y pineada correctamente.
+
+¡ï¸  Ejecutando 03-create-services.ps1e[0m
+
+¡ï¸  Creando servicios y tareas programadase[0m
+Register-ScheduledTask : Acceso denegado.
+En D:\Windows\install\03-create-services.ps1: 37 Carácter: 1
++ Register-ScheduledTask `
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (PS_ScheduledTask:Root/Microsoft/...S_ScheduledTask) [Register-Schedul
+   edTask], CimException
+    + FullyQualifiedErrorId : HRESULT 0x80070005,Register-ScheduledTask
+
+… Tarea 'ReapplyWindowsHardening' creada (ONSTART)e[0m
+New-Item : Se denegó el acceso a la clave de Registro
+'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\reharden.exe'.
+En D:\Windows\install\03-create-services.ps1: 52 Carácter: 1
++ New-Item $aliasPath -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...hs\reharden.exe:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App
+Paths\reharden.exe' porque no existe.
+En D:\Windows\install\03-create-services.ps1: 54 Carácter: 1
++ Set-ItemProperty $aliasPath "(Default)" "powershell.exe"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...hs\reharden.exe:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App
+Paths\reharden.exe' porque no existe.
+En D:\Windows\install\03-create-services.ps1: 55 Carácter: 1
++ Set-ItemProperty $aliasPath "Path" $env:SystemRoot
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...hs\reharden.exe:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App
+Paths\reharden.exe' porque no existe.
+En D:\Windows\install\03-create-services.ps1: 56 Carácter: 1
++ Set-ItemProperty $aliasPath "Arguments" "-ExecutionPolicy Bypass -Fil ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...hs\reharden.exe:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+… Comando 'reharden' disponible globalmentee[0m
+… Servicios de automatizaciÃ³n creados correctamentee[0m
+
+¡ï¸  Ejecutando 99-update.ps1e[0m
+
+¡ï¸  Buscando actualizaciones de Windowse[0m
+Install-Module : Se requieren permisos de administrador para instalar módulos en 'C:\Program
+Files\WindowsPowerShell\Modules'. Inicie sesión en el equipo con una cuenta que tenga permisos de administrador e
+inténtelo de nuevo, o instale 'C:\Users\Oficina\Documents\WindowsPowerShell\Modules' agregando "-Scope CurrentUser" al
+comando. También puede intentar ejecutar la sesión de Windows PowerShell con derechos elevados (Ejecutar como
+administrador).
+En D:\Windows\install\99-update.ps1: 5 Carácter: 1
++ Install-Module PSWindowsUpdate -Force -Scope AllUsers -ErrorAction Si ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Install-Module], ArgumentException
+    + FullyQualifiedErrorId : InstallModuleNeedsCurrentUserScopeParameterForNonAdminUser,Install-Module
+
+Import-Module : No se cargó el módulo 'PSWindowsUpdate' especificado porque no se encontró ningún archivo de módulo
+válido en ningún directorio de módulo.
+En D:\Windows\install\99-update.ps1: 6 Carácter: 1
++ Import-Module PSWindowsUpdate
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ResourceUnavailable: (PSWindowsUpdate:String) [Import-Module], FileNotFoundException
+    + FullyQualifiedErrorId : Modules_ModuleNotFound,Microsoft.PowerShell.Commands.ImportModuleCommand
+
+Get-WindowsUpdate : El término 'Get-WindowsUpdate' no se reconoce como nombre de un cmdlet, función, archivo de script
+o programa ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que
+dicha ruta es correcta e inténtelo de nuevo.
+En D:\Windows\install\99-update.ps1: 8 Carácter: 1
++ Get-WindowsUpdate -AcceptAll -Install -IgnoreReboot
++ ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Get-WindowsUpdate:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+… Actualizaciones aplicadas (reinicio puede ser requerido)e[0m
+… ConfiguraciÃ³n inicial completae[0m
+
+¡ï¸  FASE 2: ActualizaciÃ³n del sistemae[0m
+. : El término 'D:\Windows/install/update.ps1' no se reconoce como nombre de un cmdlet, función, archivo de script o
+programa ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que
+dicha ruta es correcta e inténtelo de nuevo.
+En D:\Windows\setup-windows.ps1: 30 Carácter: 3
++ . "$PSScriptRoot/install/update.ps1"
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\Windows/install/update.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+… Sistema actualizadoe[0m
+
+¡ï¸  FASE 3: OptimizaciÃ³n y hardeninge[0m
+D:\Windows\lib\require-admin.ps1 : Este script requiere privilegios de Administrador
+En D:\Windows\optimize-windows.ps1: 1 Carácter: 1
++ . "$PSScriptRoot/lib/require-admin.ps1"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,require-admin.ps1
+
+
+¡ï¸  OPTIMIZACIÃe[0m
+
+¡ï¸  Desactivando opciones de privacidade[0m
+New-Item : Se denegó el acceso a la clave de Registro
+'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo'.
+En D:\Windows\optimize\privacy.ps1: 6 Carácter: 1
++ New-Item "$policies\AdvertisingInfo" -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...AdvertisingInfo:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo'
+porque no existe.
+En D:\Windows\optimize\privacy.ps1: 7 Carácter: 1
++ Set-ItemProperty "$policies\AdvertisingInfo" DisabledByGroupPolicy 1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...AdvertisingInfo:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+New-Item : Se denegó el acceso a la clave de Registro
+'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent'.
+En D:\Windows\optimize\privacy.ps1: 9 Carácter: 1
++ New-Item "$policies\CloudContent" -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ws\CloudContent:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent' porque
+no existe.
+En D:\Windows\optimize\privacy.ps1: 10 Carácter: 1
++ Set-ItemProperty "$policies\CloudContent" DisableWindowsConsumerFeatu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...ws\CloudContent:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent' porque
+no existe.
+En D:\Windows\optimize\privacy.ps1: 11 Carácter: 1
++ Set-ItemProperty "$policies\CloudContent" DisableTailoredExperiencesW ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...ws\CloudContent:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+New-Item : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\privacy.ps1: 13 Carácter: 1
++ New-Item "$policies\System" -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...crosoft\Windows:String) [New-Item], SecurityExcepti
+   on
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.NewItemCommand
+
+New-Item : Se denegó el acceso a la clave de Registro 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System'.
+En D:\Windows\optimize\privacy.ps1: 13 Carácter: 1
++ New-Item "$policies\System" -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Windows\System:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\privacy.ps1: 14 Carácter: 1
++ Set-ItemProperty "$policies\System" EnableActivityFeed 0
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Windows\System:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\privacy.ps1: 15 Carácter: 1
++ Set-ItemProperty "$policies\System" PublishUserActivities 0
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Windows\System:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\privacy.ps1: 16 Carácter: 1
++ Set-ItemProperty "$policies\System" UploadUserActivities 0
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Windows\System:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+… Privacidad aplicadae[0m
+
+¡ï¸  Desactivando TelemetrÃ­ae[0m
+New-Item : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\telemetry.ps1: 5 Carácter: 1
++ New-Item -Path $base -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...crosoft\Windows:String) [New-Item], SecurityExcepti
+   on
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.NewItemCommand
+
+New-Item : Se denegó el acceso a la clave de Registro
+'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection'.
+En D:\Windows\optimize\telemetry.ps1: 5 Carácter: 1
++ New-Item -Path $base -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\DataCollection:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\telemetry.ps1: 6 Carácter: 1
++ Set-ItemProperty $base AllowTelemetry 0 -Type DWord
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\DataCollection:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\telemetry.ps1: 7 Carácter: 1
++ Set-ItemProperty $base DisableTelemetryOptInSettingsUx 1 -Type DWord
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\DataCollection:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-Service : No se puede configurar el servicio 'Experiencias del usuario y telemetría asociadas (DiagTrack)' debido
+al error siguiente: Acceso denegado
+En D:\Windows\optimize\telemetry.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Servicio de enrutamiento de mensajes de inserción del Protocolo de
+aplicación inalámbrica (WAP) de administración de dispositivos (dmwappushservice)' debido al error siguiente: Acceso
+denegado
+En D:\Windows\optimize\telemetry.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Servicio Informe de errores de Windows (WerSvc)' debido al error
+siguiente: Acceso denegado
+En D:\Windows\optimize\telemetry.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+… TelemetrÃ­a desactivadae[0m
+
+¡ï¸  Desactivando servicios innecesariose[0m
+Set-Service : No se puede configurar el servicio 'SysMain (SysMain)' debido al error siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Servicio de prueba comercial (RetailDemo)' debido al error
+siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Administrador de mapas descargados (MapsBroker)' debido al error
+siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Servicio de uso compartido de red del Reproductor de Windows Media
+(WMPNetworkSvc)' debido al error siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Registro remoto (RemoteRegistry)' debido al error siguiente: Acceso
+denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Conexión compartida a Internet (ICS) (SharedAccess)' debido al error
+siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : El servicio Fax no se encontró en el equipo '.'.
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.:String) [Set-Service], InvalidOperationException
+    + FullyQualifiedErrorId : InvalidOperationException,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Servicio de usuario de plataforma de dispositivos conectados
+(CDPUserSvc)' debido al error siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'Almacenamiento de datos de usuarios (UnistoreSvc)' debido al error
+siguiente: Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Set-Service : No se puede configurar el servicio 'MessagingService (MessagingService)' debido al error siguiente:
+Acceso denegado
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+… Servicios optimizados (Bluetooth e impresiÃ³n intactos)e[0m
+
+¡ï¸  Configurando indexaciÃ³n segurae[0m
+Set-Service : No se puede configurar el servicio 'Windows Search (WSearch)' debido al error siguiente: Acceso denegado
+En D:\Windows\optimize\search-indexing.ps1: 5 Carácter: 1
++ Set-Service WSearch -StartupType Automatic
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (System.ServiceProcess.ServiceController:ServiceController) [Set-Servi
+   ce], ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotSetService,Microsoft.PowerShell.Commands.SetServiceCommand
+
+Start-Service : No se puede iniciar el servicio 'Windows Search (WSearch)' debido al error siguiente: No se puede
+abrir el servicio WSearch en el equipo '.'.
+En D:\Windows\optimize\search-indexing.ps1: 6 Carácter: 1
++ Start-Service WSearch
++ ~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OpenError: (System.ServiceProcess.ServiceController:ServiceController) [Start-Service],
+   ServiceCommandException
+    + FullyQualifiedErrorId : CouldNotStartService,Microsoft.PowerShell.Commands.StartServiceCommand
+
+New-Item : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\search-indexing.ps1: 10 Carácter: 1
++ New-Item $reg -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Gather\Windows:String) [New-Item], SecurityExcepti
+   on
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.NewItemCommand
+
+New-Item : Se denegó el acceso a la clave de Registro 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
+Search\Gather\Windows\SystemIndex'.
+En D:\Windows\optimize\search-indexing.ps1: 10 Carácter: 1
++ New-Item $reg -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\search-indexing.ps1: 11 Carácter: 1
++ Set-ItemProperty $reg EnableUSNJournal 1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+New-Item : Se denegó el acceso a la clave de Registro 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows
+Search'.
+En D:\Windows\optimize\search-indexing.ps1: 15 Carácter: 1
++ New-Item $policy -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Windows Search:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search' porque
+no existe.
+En D:\Windows\optimize\search-indexing.ps1: 16 Carácter: 1
++ Set-ItemProperty $policy DisableBackoff 1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...\Windows Search:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search' porque
+no existe.
+En D:\Windows\optimize\search-indexing.ps1: 17 Carácter: 1
++ Set-ItemProperty $policy PreventIndexingRemovableDrive 1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...\Windows Search:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+Set-ItemProperty : No se encuentra la ruta de acceso 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search' porque
+no existe.
+En D:\Windows\optimize\search-indexing.ps1: 18 Carácter: 1
++ Set-ItemProperty $policy AllowIndexingEncryptedStoresOrItems 0
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (HKLM:\SOFTWARE\...\Windows Search:String) [Set-ItemProperty], ItemNotFo
+   undException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+… IndexaciÃ³n limitada a NTFSe[0m
+
+¡ï¸  Eliminando apps integradase[0m
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+Get-AppxPackage : Acceso denegado.
+Acceso denegado.
+En D:\Windows\optimize\apps-remove.ps1: 12 Carácter: 3
++   Get-AppxPackage -AllUsers $a | Remove-AppxPackage -AllUsers -ErrorA ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxPackage], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.Windows.Appx.PackageManager.Commands.GetApp
+   xPackageCommand
+
+Get-AppxProvisionedPackage : La operación solicitada requiere elevación.
+En D:\Windows\optimize\apps-remove.ps1: 13 Carácter: 3
++   Get-AppxProvisionedPackage -Online |
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-AppxProvisionedPackage], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetAppxProvisionedPackageCommand
+
+… Apps eliminadase[0m
+. : El término 'D:\Windows/optimize/scheduled-tasks.ps1' no se reconoce como nombre de un cmdlet, función, archivo de
+script o programa ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso,
+compruebe que dicha ruta es correcta e inténtelo de nuevo.
+En D:\Windows\optimize-windows.ps1: 13 Carácter: 5
++   . "$PSScriptRoot/optimize/$m.ps1"
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\Windows/optimize/scheduled-tasks.ps1:String) [], CommandNotFoundExce
+   ption
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+… Windows optimizado al mÃ¡ximo ðŸš€e[0m
+… Setup completo ðŸš€e[0m
+
+Setup finalizado. Presiona ENTER para cerrar...
+
+#
+#
+################################## ================================================= ##################################
+##################################                    NUEVOS LOGS                    ##################################
+################################## ================================================= ##################################
+#
+#
+
+PS C:\WINDOWS\system32> cd D:\Windows
+PS D:\Windows> .\setup-windows.ps1
+La propiedad 'OutputRendering' no se encuentra en este objeto. Compruebe que la propiedad existe y se puede establecer.
+En D:\Windows\setup-windows.ps1: 4 Carácter: 1
++ $PSStyle.OutputRendering = "Ansi"
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : PropertyNotFound
+
+En D:\Windows\lib\require-admin.ps1: 12 Carácter: 68
++     -ArgumentList "-ExecutionPolicy Bypass -File `"$PSCommandPath`""
++                                                                    ~
+Falta la cadena en el terminador: ".
+En D:\Windows\lib\require-admin.ps1: 7 Carácter: 20
++ if (-not $IsAdmin) {
++                    ~
+Falta la llave de cierre "}" en el bloque de instrucciones o la definición de tipo.
+    + CategoryInfo          : ParserError: (:) [], ParseException
+    + FullyQualifiedErrorId : TerminatorExpectedAtEndOfString
+
+âž¡ï¸  SETUP WINDOWS â€ ESTADO BASE + OPTIMIZACIÃN
+âž¡ï¸  FASE 1: ConfiguraciÃ³n inicial del sistema
+âž¡ï¸  Ejecutando 01-ignore-linux-disks.ps1
+
+âž¡ï¸  Bloqueando discos Linux (OFFLINE + ReadOnly)
+
+âž¡ï¸  Procesando Disco 0 (ST500DM002-1BD142)
+âœ… Disco 0 puesto OFFLINE
+âœ… Disco 0 marcado ReadOnly
+
+âž¡ï¸  Procesando Disco 2 (Patriot Burst Elite 120GB)
+âœ… Disco 2 puesto OFFLINE
+âœ… Disco 2 marcado ReadOnly
+
+âž¡ï¸  Configurando Windows Search para ignorar discos no Windows
+New-Item : Acceso denegado al Registro solicitado.
+En D:\Windows\install\01-ignore-linux-disks.ps1: 87 Carácter: 5
++     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows Search\Gather\Wi ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Gather\Windows:String) [New-Item], SecurityExcepti
+   on
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.NewItemCommand
+
+New-Item : Se denegó el acceso a la clave de Registro 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
+Search\Gather\Windows\SystemIndex'.
+En D:\Windows\install\01-ignore-linux-disks.ps1: 87 Carácter: 5
++     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows Search\Gather\Wi ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\install\01-ignore-linux-disks.ps1: 90 Carácter: 5
++     Set-ItemProperty `
++     ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+âœ… Indexador configurado correctamente
+
+âž¡ï¸  Desactivando detecciÃ³n automÃ¡tica de hardware
+âœ… ShellHWDetection desactivado
+
+âž¡ï¸  VerificaciÃ³n final de discos
+âœ… Disco 0 correctamente OFFLINE + ReadOnly
+âœ… Disco 2 correctamente OFFLINE + ReadOnly
+âœ… Todos los discos Linux estÃ¡n completamente ignorados por Windows
+âž¡ï¸  Ejecutando 02-connect-server-samba.ps1
+
+CMDKEY: credencial agregada correctamente.
+New-PSDrive : El nombre de usuario o la contraseña no son correctos
+En D:\Windows\install\02-connect-server-samba.ps1: 19 Carácter: 5
++     New-PSDrive `
++     ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (Z:PSDriveInfo) [New-PSDrive], Win32Exception
+    + FullyQualifiedErrorId : CouldNotMapNetworkDrive,Microsoft.PowerShell.Commands.NewPSDriveCommand
+
+ConexiÃ³n SMB configurada y pineada correctamente.                                                                                                      âž¡ï¸  Ejecutando 03-create-services.ps1                                                                                                                âž¡ï¸  Creando servicios y tareas programadas                                                                                                                                                                                                                                                                   TaskPath                                       TaskName                          State                                                                  --------                                       --------                          -----                                                                  \                                              ReapplyWindowsHardening           Ready                                                                  âœ… Tarea 'ReapplyWindowsHardening' creada (ONSTART)                                                                                                    âœ… Comando 'reharden' disponible globalmente                                                                                                           âœ… Servicios de automatizaciÃ³n creados correctamente
+âž¡ï¸  Ejecutando install-apps.ps1
+En D:\Windows\install\install-apps.ps1: 2 Carácter: 51
++ https://download.mozilla.org/?product=firefox-stub&os=win&lang=es-AR
++                                                   ~
+No se permite usar el carácter de Y comercial (&). El operador & está reservado para un uso futuro; encierre un símbolo de Y comercial entre comillas
+dobles ("&") para pasarlo como parte de una cadena.
+En D:\Windows\install\install-apps.ps1: 2 Carácter: 58
++ https://download.mozilla.org/?product=firefox-stub&os=win&lang=es-AR
++                                                          ~
+No se permite usar el carácter de Y comercial (&). El operador & está reservado para un uso futuro; encierre un símbolo de Y comercial entre comillas
+dobles ("&") para pasarlo como parte de una cadena.
+    + CategoryInfo          : ParserError: (:) [], ParseException
+    + FullyQualifiedErrorId : AmpersandNotAllowed
+
+âœ… ConfiguraciÃ³n inicial completa
+âž¡ï¸  FASE 2: ActualizaciÃ³n del sistema
+âž¡ï¸  Buscando actualizaciones de Windows
+âž¡ï¸  Instalando mÃ³dulo PSWindowsUpdate
+
+Se necesita el proveedor de NuGet para continuar
+PowerShellGet necesita la versión del proveedor de NuGet '2.8.5.201' o posterior para interactuar con repositorios basados en NuGet. El proveedor de
+NuGet debe estar disponible en 'C:\Program Files\PackageManagement\ProviderAssemblies' o
+'C:\Users\Oficina\AppData\Local\PackageManagement\ProviderAssemblies'. También puedes instalar el proveedor de NuGet ejecutando
+'Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force'. ¿Quieres que PowerShellGet se instale e importe el proveedor de NuGet ahora?
+[S] Sí  [N] No  [U] Suspender  [?] Ayuda (el valor predeterminado es "S"): S
+âœ… MÃ³dulo PSWindowsUpdate instalado
+Reboot is required, but do it manually.
+âš ï¸  Actualizaciones aplicadas. Reinicio puede ser requerido.
+âœ… Sistema actualizado
+âž¡ï¸  FASE 3: OptimizaciÃ³n y hardening
+âž¡ï¸  OPTIMIZACIÃ N WINDOWS â€ MODO HARDCORE
+âž¡ï¸  Desactivando opciones de privacidad
+âœ… Privacidad aplicada
+âž¡ï¸  Desactivando TelemetrÃ­a
+âœ… TelemetrÃ­a desactivada
+âž¡ï¸  Desactivando servicios innecesarios
+Set-Service : El servicio Fax no se encontró en el equipo '.'.
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.:String) [Set-Service], InvalidOperationException
+    + FullyQualifiedErrorId : InvalidOperationException,Microsoft.PowerShell.Commands.SetServiceCommand
+
+âœ… Servicios optimizados (Bluetooth e impresiÃ³n intactos)
+âž¡ï¸  Configurando indexaciÃ³n segura
+New-Item : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\search-indexing.ps1: 10 Carácter: 1
++ New-Item $reg -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Gather\Windows:String) [New-Item], SecurityException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.NewItemCommand
+
+New-Item : Se denegó el acceso a la clave de Registro 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Search\Gather\Windows\SystemIndex'.
+En D:\Windows\optimize\search-indexing.ps1: 10 Carácter: 1
++ New-Item $reg -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [New-Item], UnauthorizedAccessException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\search-indexing.ps1: 11 Carácter: 1
++ Set-ItemProperty $reg EnableUSNJournal 1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [Set-ItemProperty], SecurityException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+âœ… IndexaciÃ³n limitada a NTFS
+âž¡ï¸  Eliminando apps integradas
+Remove-AppxPackage : Solicitud no compatible.
+error 0x80070032: error en la operación de implementación de AppX Remove en el paquete
+Microsoft.XboxGameCallableUI_1000.25128.1000.0_neutral_neutral_cw5n1h2txyewy desde: C:\Windows\SystemApps\Microsoft.XboxGameCallableUI_cw5n1h2txyewy.
+Esta aplicación forma parte de Windows y no se puede desinstalar individualmente por cada usuario. Un administrador puede intentar quitar la
+aplicación desde el equipo mediante Activar o desactivar las características de Windows. Sin embargo, es posible que la aplicación no
+En D:\Windows\optimize\apps-remove.ps1: 16 Carácter: 5
++     Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Remove-AppxPackage], COMException
+    + FullyQualifiedErrorId : System.Runtime.InteropServices.COMException,Microsoft.Windows.Appx.PackageManager.Commands.RemoveAppxPackageCommand
+
+âœ… Apps integradas eliminadas
+. : El término 'D:\Windows/optimize/scheduled-tasks.ps1' no se reconoce como nombre de un cmdlet, función, archivo de script o programa ejecutable.
+Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso, compruebe que dicha ruta es correcta e inténtelo de nuevo.
+En D:\Windows\optimize-windows.ps1: 12 Carácter: 5
++   . "$PSScriptRoot/optimize/$m.ps1"
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\Windows/optimize/scheduled-tasks.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+âœ… Windows optimizado al mÃ¡ximo ðŸš€
+âœ… Setup completo ðŸš€
+
+
+PS D:\Windows> .\optimize-windows.ps1
+âž¡ï¸  OPTIMIZACIÃ N WINDOWS â€ MODO HARDCORE
+âž¡ï¸  Desactivando opciones de privacidad
+âœ… Privacidad aplicada
+âž¡ï¸  Desactivando TelemetrÃ­a
+âœ… TelemetrÃ­a desactivada
+âž¡ï¸  Desactivando servicios innecesarios
+Set-Service : El servicio Fax no se encontró en el equipo '.'.
+En D:\Windows\optimize\services.ps1: 12 Carácter: 3
++   Set-Service  $s -StartupType Disabled
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (.:String) [Set-Service], InvalidOperationException
+    + FullyQualifiedErrorId : InvalidOperationException,Microsoft.PowerShell.Commands.SetServiceCommand
+
+âœ… Servicios optimizados (Bluetooth e impresiÃ³n intactos)
+âž¡ï¸  Configurando indexaciÃ³n segura
+New-Item : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\search-indexing.ps1: 10 Carácter: 1
++ New-Item $reg -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...\Gather\Windows:String) [New-Item], SecurityExcepti
+   on
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.NewItemCommand
+
+New-Item : Se denegó el acceso a la clave de Registro 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
+Search\Gather\Windows\SystemIndex'.
+En D:\Windows\optimize\search-indexing.ps1: 10 Carácter: 1
++ New-Item $reg -Force | Out-Null
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [New-Item], UnauthorizedAcc
+   essException
+    + FullyQualifiedErrorId : System.UnauthorizedAccessException,Microsoft.PowerShell.Commands.NewItemCommand
+
+Set-ItemProperty : Acceso denegado al Registro solicitado.
+En D:\Windows\optimize\search-indexing.ps1: 11 Carácter: 1
++ Set-ItemProperty $reg EnableUSNJournal 1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : PermissionDenied: (HKEY_LOCAL_MACH...ows\SystemIndex:String) [Set-ItemProperty], Securit
+   yException
+    + FullyQualifiedErrorId : System.Security.SecurityException,Microsoft.PowerShell.Commands.SetItemPropertyCommand
+
+âœ… IndexaciÃ³n limitada a NTFS
+âž¡ï¸  Eliminando apps integradas
+Remove-AppxPackage : Solicitud no compatible.
+error 0x80070032: error en la operación de implementación de AppX Remove en el paquete
+Microsoft.XboxGameCallableUI_1000.25128.1000.0_neutral_neutral_cw5n1h2txyewy desde:
+C:\Windows\SystemApps\Microsoft.XboxGameCallableUI_cw5n1h2txyewy. Esta aplicación forma parte de Windows y no se puede
+desinstalar individualmente por cada usuario. Un administrador puede intentar quitar la aplicación desde el equipo
+mediante Activar o desactivar las características de Windows. Sin embargo, es posible que la aplicación no
+En D:\Windows\optimize\apps-remove.ps1: 16 Carácter: 5
++     Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Remove-AppxPackage], COMException
+    + FullyQualifiedErrorId : System.Runtime.InteropServices.COMException,Microsoft.Windows.Appx.PackageManager.Comman
+   ds.RemoveAppxPackageCommand
+
+
+
+Path          :
+Online        : True
+RestartNeeded : False
+
+Path          :
+Online        : True
+RestartNeeded : False
+
+Path          :
+Online        : True
+RestartNeeded : False
+
+Path          :
+Online        : True
+RestartNeeded : False
+
+âœ… Apps integradas eliminadas
+. : El término 'D:\Windows/optimize/scheduled-tasks.ps1' no se reconoce como nombre de un cmdlet, función, archivo de
+script o programa ejecutable. Compruebe si escribió correctamente el nombre o, si incluyó una ruta de acceso,
+compruebe que dicha ruta es correcta e inténtelo de nuevo.
+En D:\Windows\optimize-windows.ps1: 12 Carácter: 5
++   . "$PSScriptRoot/optimize/$m.ps1"
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\Windows/optimize/scheduled-tasks.ps1:String) [], CommandNotFoundExce
+   ption
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+âœ… Windows optimizado al mÃ¡ximo ðŸš€
+
+#
+#
+################################## ================================================= ##################################
+##################################                    NUEVOS LOGS                    ##################################
+################################## ================================================= ##################################
+#
+#

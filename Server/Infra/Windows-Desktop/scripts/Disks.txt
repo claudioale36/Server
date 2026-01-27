@@ -1,0 +1,28 @@
+🧠 Paso 1 – Identificar los discos Linux desde Windows
+
+En Windows no se usan UUID de Linux, se usan Disk Number / UniqueId (GPT).
+
+Ejecuta esto una sola vez para mapearlos:
+
+Get-Disk | Select Number, FriendlyName, PartitionStyle, UniqueId, IsOffline, IsReadOnly
+
+Number         : 0
+FriendlyName   : ST500DM002-1BD142
+PartitionStyle : GPT
+UniqueId       : 5000C500400F10EA
+IsOffline      : False
+IsReadOnly     : False
+
+Number         : 1
+FriendlyName   : ADATA SU650
+PartitionStyle : GPT
+UniqueId       : 0000000000000000
+IsOffline      : False
+IsReadOnly     : False
+
+Number         : 2
+FriendlyName   : Patriot Burst Elite 120GB
+PartitionStyle : GPT
+UniqueId       : 0000000000000000
+IsOffline      : False
+IsReadOnly     : False

@@ -1,0 +1,40 @@
+# =========================================================
+# HABILITAR EJECUCIÓN DE SCRIPTS (ejecutar una sola vez):
+# En Powershell ejecutar el siguiente comando
+# Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+# Para "desbloquear" el archivo si Windows sigue sin querer ejecutarlo "Unblock-File C:\Users\Oficina\Desktop\connect-server-samba.ps1"
+# =========================================================
+
+# --- CONFIGURACIÓN ---
+$ServerIP   = "192.168.1.101"
+$ShareName = "server"
+$SharePath = "\\$ServerIP\$ShareName"
+$DriveLetter = "Z:"
+
+# --- SOLICITAR CREDENCIALES AL USUARIO ---
+$Credential = Get-Credential -Message "Ingrese credenciales para el servidor Samba"
+
+$Username = $Credential.UserName
+$Password = $Credential.GetNetworkCredential().Password
+
+# --- GUARDAR CREDENCIALES EN WINDOWS ---
+cmdkey /add:$ServerIP /user:$Username /pass:$Password
+
+# --- MAPEAR UNIDAD DE RED (PERSISTENTE) ---
+if (-not (Get-PSDrive -Name $DriveLetter.TrimEnd(':') -ErrorAction SilentlyContinue)) {
+    New-PSDrive `
+        -Name $DriveLetter.TrimEnd(':') `
+        -PSProvider FileSystem `
+        -Root $SharePath `
+        -Persist
+}
+
+# --- PIN A "ACCESO RÁPIDO" ---
+$Shell = New-Object -ComObject Shell.Application
+$Folder = $Shell.Namespace($SharePath)
+
+if ($Folder -ne $null) {
+    $Folder.Self.InvokeVerb("pintohome")
+}
+
+Write-Host "Conexión SMB creada y agregada a Acceso rápido correctamente." -ForegroundColor Green

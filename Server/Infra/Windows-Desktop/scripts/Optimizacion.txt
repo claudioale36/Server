@@ -1,0 +1,64 @@
+1. Desactivar todas las funciones que están habilitadas por defecto en el menú "Configuracion- Privacidad y seguridad - General" que recaban datos. y Tambien todas las funciones de telemetría. Por ejemplo:
+- ID de publicidad (Para que las aplicaciones, sitios web, inicio de Windows, etc muestren contenido personalizado).
+- Contenido sugerido.
+- "Permitir que Windows mejore el inicio y los resultados de búsqueda mediante el seguimiento de los inicios de aplicaciones.
+- Envio de datos de diagnostico.
+- Ubicacion.
+- No recuerdo todas, pero desactiva TODO lo relacionado a telemetría y envio de datos.
+
+2. Eliminacion de Apps y servicios integrados:
+- Asistencia Rapida
+- Centro de Opiniones
+- Dev Home
+- Host de experiencia entre Dispositivos
+- Phone Link
+- Obtener Ayuda
+- Game Bar.
+- Xbox Services
+- Xbox App
+- Xbox Game Bar
+- Xbox Live
+- Gaming Overlay
+- Xbox Identity Provider
+- Mapas.
+- Outlook.
+- Microsoft Edge
+- Microsoft News.
+- Microsoft To Do
+- Aplicacion "El tiempo" y Widget de la barra de tareas.
+- Copilot
+- Cortana
+- Bing Chat
+- Web Experience Pack
+
+3. Otras configuraciones:
+- Habilitar la Ejecución de scripts creados por el usuario y no firmados:
+"Set-ExecutionPolicy RemoteSigned -Scope CurrentUser".
+Si hay otros comandos necesarios, tambien incorporalos.
+- Habilitar rutas de acceso largas.
+- Experiendia para desarrolladores en el "Explorador de archivos" como "Mostrar las extensiones de archivo, "Mostrar archivos ocultos y del sistema", habilitar todas.
+Ejemplo: Mostrar la extensiones ocultas. Podemos incorporar:
+reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced `
+    /v HideFileExt `
+    /t REG_DWORD `
+    /d 0 `
+    /f
+- Habilitar subsistema de archivos Linux para Windows y Samba (O lo que sea necesario para conectarme a un servidor Linux por Samba)
+- Habilitar sudo.
+- Habilitar "Modo para desarrolladores".
+- Tiempo de protector de pantalla: 10 min.
+- Tiempo de apagado de monitores: 15 min.
+- Tiempo de Suspensión: 75 min.
+- Tiempo de Suspension de dispositivos Bluetooth: 75 min.
+- Acelerar la velocidad del mouse al 75%
+- Desactivar ubicacion.
+- Desactivar Llaves de acceso.
+
+4. Modo de ejecucion/implementación de los scripts de optimización:
+Evaluaremos:
+- Crear ".bat" para lanzar el script sin que el usuario escriba nada.
+- Crear un acceso directo con PowerShell embebido.
+- Instalador tipo "doble click y listo".
+
+5. Caracteristicas adicionales:
+- He experimentado que los script funcionaban incorrectamente y sin permisos cuando abria una terminal en la ubicacion, debia primero lanzar PowerShell como administrador y dirigirme a la ruta con "cd **ruta/**". Quiero que los scripts tengan el comando para transformar la terminal actual en administrador.
