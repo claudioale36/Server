@@ -74,6 +74,9 @@ log_step "Configurando SSH"
 mkdir -p "$SSH_DIR"
 chmod 700 "$SSH_DIR"
 
+# Clave personalizada por usuario GitHub
+SSH_KEY="$SSH_DIR/id_ed25519_$GH_USER"
+
 if [ ! -f "$SSH_KEY" ]; then
     ssh-keygen -t ed25519 -C "$GH_EMAIL" -f "$SSH_KEY" -N ""
     log_ok "Clave SSH creada"
@@ -81,40 +84,53 @@ else
     log_ok "Clave SSH ya existe"
 fi
 
+# ========= SSH CONFIG =========
+log_step "Configurando SSH para usar puerto 443"
+
+SSH_CONFIG="$SSH_DIR/config"
+
+# Añadir configuración si no existe
+if ! grep -q "Host github.com" "$SSH_CONFIG" 2>/dev/null; then
+cat >> "$SSH_CONFIG" << EOF
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+  IdentityFile $SSH_KEY
+EOF
+    log_ok "SSH configurado para GitHub por puerto 443"
+else
+    log_warn "SSH ya tiene configuración para GitHub"
+fi
+
+chmod 600 "$SSH_CONFIG"
+
+
 # ========= SCRIPT iniciar-ssh =========
 log_step "Creando comando iniciar-ssh"
 
 sudo tee /usr/local/bin/iniciar-ssh >/dev/null << 'EOF'
 #!/bin/bash
-echo "🔐 Cargando claves SSH con keychain..."
-keychain --quiet --eval ~/.ssh/id_ed25519
-source ~/.keychain/$(hostname)-sh 2>/dev/null
-echo "SSH Agent listo."
+echo "🔐 Cargando todas las claves SSH con keychain..."
+
+SSH_DIR="$HOME/.ssh"
+
+# Buscar todas las claves id_ed25519* (excepto .pub)
+for KEY in "$SSH_DIR"/id_ed25519*; do
+    [[ $KEY == *.pub ]] && continue
+    keychain --quiet --eval "$KEY"
+done
+
+# Cargar keychain
+KEYCHAIN_FILE="$HOME/.keychain/$(hostname)-sh"
+[ -f "$KEYCHAIN_FILE" ] && source "$KEYCHAIN_FILE" 2>/dev/null
+
+echo "SSH Agent listo. Claves cargadas:"
+ssh-add -l
 EOF
 
 sudo chmod +x /usr/local/bin/iniciar-ssh
-log_ok "Comando iniciar-ssh creado"
-
-# ========= BASHRC (IDEMPOTENTE) =========
-log_step "Configurando carga automática en .bashrc"
-
-if ! grep -q "$KEYCHAIN_BLOCK" "$BASHRC"; then
-cat >> "$BASHRC" << EOF
-
-$KEYCHAIN_BLOCK
-# Keychain SSH
-if command -v keychain >/dev/null 2>&1; then
-    keychain --quiet ~/.ssh/id_ed25519
-    [ -f "\$HOME/.keychain/\$(hostname)-sh" ] && source "\$HOME/.keychain/\$(hostname)-sh"
-fi
-
-alias iniciar-ssh="/usr/local/bin/iniciar-ssh"
-# <<< keychain ssh <<<
-EOF
-    log_ok ".bashrc actualizado"
-else
-    log_ok ".bashrc ya estaba configurado"
-fi
+log_ok "Comando iniciar-ssh creado (carga automática de todas las claves)"
 
 # Recargar el archivo .bashrc
 source "$BASHRC"
