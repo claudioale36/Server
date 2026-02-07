@@ -1,0 +1,150 @@
+Trabajaremos en la creación de Widgets para OpenBB Finance.
+
+1- Tengo Open Data Platform autoalojado (el backend de OpenBB) para poder proveer a mi frontend de Widgets y datos propios.
+
+2- En este caso particular crearemos un Widget para la generación de un Diagrama de Sankey, o también llamado "Diagrama Aluvial".
+Este diagrama es bastante conocido en research para representar los flujos de dinero (ingresos y egresos) de las empresas. O aplicado a ETFs, la composición de activos. Dime si sabes exactamente
+
+- No reinventamos la rueda a menos que sea estrictamente necesario. En este caso evaluaremos los pros y contras de apalancarnos en librerías como "SankeyDiagram.net"; utilizándolas como base.
+Busca profundamente librerías similares que puedan ayudarnos a lograr nuestro objetivo, lo importante es lograr una EXCELENTE integración con OpenBB.
+
+Las razones por las que tengo en cuenta "SankeyDiagram.net":
+- Es open source
+- Usa JS + D3, que es exactamente lo que OpenBB espera para widgets custom
+- El modelo de datos de Sankey es simple (nodes + links)
+- No depende de backend propietario
+- Es fácil de desacoplar del UI original y convertirlo en un componente reusable
+
+La usaría como librería base / inspiración para:
+- Layout
+- Lógica de rendering
+- Interacciones básicas (hover, labels, colores).
+- Como inspiración que como dependencia directa
+
+3- ¿Cómo pienso encajar con OpenBB como Widget?:
+
+- Arquitectura:
+OpenBB Backend (FastAPI)
+ ├── endpoint /sankey
+ │    └── transforma datos financieros → nodes/links
+ |
+OpenBB Frontend
+ ├── Custom Widget (React)
+ │    └── SankeyChart (D3 o wrapper)
+
+4- ¿Cómo pienso convertir SankeyDiagram.net en un Widget OpenBB?
+
+4.1- Paso A — Extraer el motor Sankey:
+
+Del repo de SankeyDiagram.net:
+
+Quédarmee solo con:
+- La función que construye el Sankey (d3-sankey)
+- El render SVG
+
+Eliminar:
+- UI propia
+- Inputs HTML
+- Carga manual de CSV
+
+Dejando algo así:
+renderSankey({
+  nodes: [...],
+  links: [...]
+}, svgRef)
+
+4.2- Paso B — Definir el contrato de datos
+Muy importante para Research.
+Ejemplo típico financiero:
+{
+  "nodes": [
+    { "id": "Revenue" },
+    { "id": "COGS" },
+    { "id": "Gross Profit" }
+  ],
+  "links": [
+    { "source": "Revenue", "target": "COGS", "value": 420 },
+    { "source": "Revenue", "target": "Gross Profit", "value": 580 }
+  ]
+}
+
+- Esto me permite representar:
+Income statement flow
+Cash flow decomposition
+Capital allocation
+Segment reporting
+Holdings → sectores → países
+ETFs → underlying assets
+
+4.3- Paso C — Backend OpenBB
+En mi backend autoalojado consumo:
+OpenBB SDK
+Datos propios
+CSV / Parquet
+APIs externas
+Transformarlos a formato Sankey
+
+Ejemplo conceptual:
+@app.get("/research/sankey/cashflow")
+def cashflow_sankey(ticker: str):
+    cf = get_cashflow(ticker)
+    return build_sankey(cf)
+
+4.4- Paso D — Widget React en OpenBB
+
+El widget:
+Fetch al endpoint
+Renderiza el Sankey
+
+Reacciona a:
+- ticker
+- periodo
+- datos
+- escenario
+
+OpenBB ya soporta:
+- Parámetros dinámicos
+- Refresh
+- Cross-widget state (si lo deseas)
+
+4.5 Limitaciones en las que he pensado:
+❌ SankeyDiagram.net NO trae (o eso creo. Investigalo):
+- Layout responsive serio
+- Animaciones avanzadas
+- Soporte nativo para time-series
+
+✅ Pero podemos añadir:
+- Transiciones entre periodos
+- Comparativas YoY
+- Drill-down (click → nuevo Sankey)
+- Colores semánticos (CAPEX vs OPEX, etc.)
+
+4.6- Alternativas en las que he pensado:
+Para no “heredar” código viejo:
+
+Usar directamente:
+- d3-sankey
+- o @visx/sankey
+
+Implementar el widget desde cero
+100% alineado con OpenBB
+
+¿Qué  alternativas se me ocurren?:
+
+- Usar SankeyDiagram.net como referencia
+- Implementa el widget con d3-sankey limpio
+
+Menos deuda técnica, mismo resultado.
+
+4.7 Casos de uso top para Research (donde Sankey brilla):
+Ideas que encajan perfecto con OpenBB:
+- Income Statement Flow (Revenue → Net Income)
+- Cash Flow Waterfall (aunque visualizado como Sankey)
+- Portfolio Exposure (Asset → Sector → Geography)
+- ETF Holdings decomposition
+- Capital Allocation over time
+- Sources & Uses of Cash en M&A
+
+
+DUDAS: No se exactamente que librerías utiliza OpenBB de forma nativa, si estas librerías permiten la creación de Diagramas de Sankey, prefiero no generar otro tipo de adaptaciones/wrappers e integraciones. Debe ser sencillo y escalable.
+

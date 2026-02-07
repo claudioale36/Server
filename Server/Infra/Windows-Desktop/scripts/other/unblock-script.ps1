@@ -5,7 +5,7 @@
 # Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 # =========================================================
 # Para desbloquear TODOS los scripts dentro de un directorio:
-# Get-ChildItem "D:\Windows\" -Recurse -File | Unblock-File
+# Get-ChildItem "D:\Windows-Files\" -Recurse -File | Unblock-File
 # =========================================================
 # Ejecución manual: .\unblock-script.ps1
 # =========================================================

@@ -1,0 +1,68 @@
+; ===============================================================================
+; windows-update.txt
+; ===============================================================================
+; Group Policy para configurar Windows Update
+; Aplicar con: LGPO.exe /t windows-update.txt
+; ===============================================================================
+
+; No forzar reinicio automático
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+NoAutoRebootWithLoggedOnUsers
+DWORD:1
+
+; Permitir al usuario configurar actualizaciones
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+AUOptions
+DWORD:2
+
+; Notificar antes de descargar
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+NoAutoUpdate
+DWORD:0
+
+; Programar instalación
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+ScheduledInstallDay
+DWORD:0
+
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate\AU
+ScheduledInstallTime
+DWORD:3
+
+; No incluir drivers en Windows Update
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate
+ExcludeWUDriversInQualityUpdate
+DWORD:1
+
+; Deshabilitar reinicio para completar actualización
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate
+SetDisableUXWUAccess
+DWORD:0
+
+; Control de usuario sobre actualizaciones
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate
+DeferFeatureUpdates
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate
+DeferFeatureUpdatesPeriodInDays
+DWORD:365
+
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate
+DeferQualityUpdates
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows\WindowsUpdate
+DeferQualityUpdatesPeriodInDays
+DWORD:30

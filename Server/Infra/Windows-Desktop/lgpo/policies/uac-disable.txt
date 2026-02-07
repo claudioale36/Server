@@ -1,0 +1,66 @@
+; ===============================================================================
+; uac-disable.txt
+; ===============================================================================
+; Group Policy para desactivar UAC completamente
+; Aplicar con: LGPO.exe /t uac-disable.txt
+; ===============================================================================
+
+; Desactivar UAC completamente
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+EnableLUA
+DWORD:0
+
+; Sin prompts para administradores
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+ConsentPromptBehaviorAdmin
+DWORD:0
+
+; Sin prompts para usuarios estándar
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+ConsentPromptBehaviorUser
+DWORD:0
+
+; No usar Secure Desktop
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+PromptOnSecureDesktop
+DWORD:0
+
+; No validar firmas de código
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+ValidateAdminCodeSignatures
+DWORD:0
+
+; Cuenta Admin integrada con full token
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+FilterAdministratorToken
+DWORD:0
+
+; Desactivar virtualización
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+EnableVirtualization
+DWORD:0
+
+; No detectar instaladores
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+EnableInstallerDetection
+DWORD:0
+
+; Desactivar UIAccess
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\System
+EnableUIADesktopToggle
+DWORD:0
+
+; Permitir elevación automática de instaladores
+Computer
+Software\Policies\Microsoft\Windows\Installer
+AlwaysInstallElevated
+DWORD:1

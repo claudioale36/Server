@@ -1,0 +1,73 @@
+; ===============================================================================
+; defender-disable.txt
+; ===============================================================================
+; Group Policy para desactivar Windows Defender completamente
+; Aplicar con: LGPO.exe /t defender-disable.txt
+; ===============================================================================
+
+; Desactivar Windows Defender
+Computer
+Software\Policies\Microsoft\Windows Defender
+DisableAntiSpyware
+DWORD:1
+
+; Desactivar protección en tiempo real
+Computer
+Software\Policies\Microsoft\Windows Defender\Real-Time Protection
+DisableRealtimeMonitoring
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows Defender\Real-Time Protection
+DisableBehaviorMonitoring
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows Defender\Real-Time Protection
+DisableIOAVProtection
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows Defender\Real-Time Protection
+DisableOnAccessProtection
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows Defender\Real-Time Protection
+DisableScanOnRealtimeEnable
+DWORD:1
+
+; Desactivar SpyNet
+Computer
+Software\Policies\Microsoft\Windows Defender\Spynet
+SpyNetReporting
+DWORD:0
+
+Computer
+Software\Policies\Microsoft\Windows Defender\Spynet
+SubmitSamplesConsent
+DWORD:2
+
+; Desactivar protección contra amenazas
+Computer
+Software\Policies\Microsoft\Windows Defender\Threats
+DisableGenericRePorts
+DWORD:1
+
+; Desactivar cloud protection
+Computer
+Software\Policies\Microsoft\Windows Defender\Spynet
+DisableBlockAtFirstSeen
+DWORD:1
+
+; Desactivar escaneo de scripts
+Computer
+Software\Policies\Microsoft\Windows Defender\Real-Time Protection
+DisableScriptScanning
+DWORD:1
+
+; Desactivar protección de red
+Computer
+Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Network Protection
+EnableNetworkProtection
+DWORD:0

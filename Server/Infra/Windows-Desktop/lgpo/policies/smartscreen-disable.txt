@@ -1,0 +1,57 @@
+; ===============================================================================
+; smartscreen-disable.txt
+; ===============================================================================
+; Group Policy para desactivar SmartScreen completamente
+; Aplicar con: LGPO.exe /t smartscreen-disable.txt
+; ===============================================================================
+
+; Desactivar SmartScreen para apps y archivos
+Computer
+Software\Policies\Microsoft\Windows\System
+EnableSmartScreen
+DWORD:0
+
+Computer
+Software\Policies\Microsoft\Windows\System
+ShellSmartScreenLevel
+SZ:Off
+
+; Desactivar SmartScreen en Edge
+Computer
+Software\Policies\Microsoft\Edge
+SmartScreenEnabled
+DWORD:0
+
+Computer
+Software\Policies\Microsoft\Edge
+SmartScreenPuaEnabled
+DWORD:0
+
+; Desactivar SmartScreen en Windows Defender
+Computer
+Software\Microsoft\Windows\CurrentVersion\Explorer
+SmartScreenEnabled
+SZ:Off
+
+; Desactivar evaluación de contenido web
+User
+Software\Microsoft\Windows\CurrentVersion\AppHost
+EnableWebContentEvaluation
+DWORD:0
+
+User
+Software\Microsoft\Windows\CurrentVersion\AppHost
+PreventOverride
+DWORD:0
+
+; Desactivar SmartScreen para Microsoft Store
+Computer
+Software\Policies\Microsoft\Windows\AppPrivacy
+LetAppsAccessTrustedDevices
+DWORD:2
+
+; Desactivar filtro de phishing
+Computer
+Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings
+EnabledV9
+DWORD:0

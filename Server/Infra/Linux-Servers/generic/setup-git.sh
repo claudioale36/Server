@@ -13,13 +13,6 @@ log_ok()     { echo -e "${GREEN}✅ $1${RESET}"; }
 log_warn()   { echo -e "${YELLOW}⚠️  $1${RESET}"; }
 log_error()  { echo -e "${RED}❌ $1${RESET}"; }
 
-# ========= VARIABLES =========
-USER_HOME="$HOME"
-SSH_DIR="$USER_HOME/.ssh"
-SSH_KEY="$SSH_DIR/id_ed25519"
-BASHRC="$USER_HOME/.bashrc"
-KEYCHAIN_BLOCK="# >>> keychain ssh <<<"
-
 log_step "=== Detectando gestor de paquetes ==="
 
 if command -v apt >/dev/null 2>&1; then
@@ -43,19 +36,26 @@ echo "=== Instalando Git + Keychain + Git Credential Manager ==="
 case $PKG in
     apt)
         sudo apt update
-        sudo apt install -y git keychain
+        sudo apt install -y git git-lfs keychain wget gpg
+        wget -q https://aka.ms/gcm/linux-install-source.sh -O /tmp/gcm.sh
+        sudo bash /tmp/gcm.sh install
         ;;
     yum)
-        sudo yum install -y git keychain
+        sudo yum install -y git git-lfs keychain wget gpg
+        wget -q https://aka.ms/gcm/linux-install-source.sh -O /tmp/gcm.sh
+        sudo bash /tmp/gcm.sh install
         ;;
     dnf)
-        sudo dnf install -y git keychain
+        sudo dnf install -y git git-lfs keychain wget gpg
+        wget -q https://aka.ms/gcm/linux-install-source.sh -O /tmp/gcm.sh
+        sudo bash /tmp/gcm.sh install
         ;;
     pacman)
-        sudo pacman -Sy --noconfirm git keychain
+        sudo pacman -Sy --noconfirm git git-lfs keychain wget gnupg
+        wget -q https://aka.ms/gcm/linux-install-source.sh -O /tmp/gcm.sh
+        sudo bash /tmp/gcm.sh install
         ;;
 esac
-log_ok "Dependencias instaladas"
 
 log_step "=== Configurando Git ==="
 
@@ -64,91 +64,43 @@ read -p "Email GitHub: " GH_EMAIL
 
 git config --global user.name "$GH_USER"
 git config --global user.email "$GH_EMAIL"
-git config --global credential.helper cache     # Activar Credential Manager
 
-log_ok "Git configurado"
+# Activar Credential Manager
+git config --global credential.helper manager
 
-# ========= SSH =========
-log_step "Configurando SSH"
+log_step "=== Creando script modular iniciar-ssh.sh ==="
 
-mkdir -p "$SSH_DIR"
-chmod 700 "$SSH_DIR"
-
-# Clave personalizada por usuario GitHub
-SSH_KEY="$SSH_DIR/id_ed25519_$GH_USER"
-
-if [ ! -f "$SSH_KEY" ]; then
-    ssh-keygen -t ed25519 -C "$GH_EMAIL" -f "$SSH_KEY" -N ""
-    log_ok "Clave SSH creada"
-else
-    log_ok "Clave SSH ya existe"
-fi
-
-# ========= SSH CONFIG =========
-log_step "Configurando SSH para usar puerto 443"
-
-SSH_CONFIG="$SSH_DIR/config"
-
-# Añadir configuración si no existe
-if ! grep -q "Host github.com" "$SSH_CONFIG" 2>/dev/null; then
-cat >> "$SSH_CONFIG" << EOF
-Host github.com
-  HostName ssh.github.com
-  Port 443
-  User git
-  IdentityFile $SSH_KEY
-EOF
-    log_ok "SSH configurado para GitHub por puerto 443"
-else
-    log_warn "SSH ya tiene configuración para GitHub"
-fi
-
-chmod 600 "$SSH_CONFIG"
-
-
-# ========= SCRIPT iniciar-ssh =========
-log_step "Creando comando iniciar-ssh"
-
-sudo tee /usr/local/bin/iniciar-ssh >/dev/null << 'EOF'
+cat << 'EOF' | sudo tee /usr/local/bin/iniciar-ssh.sh >/dev/null
 #!/bin/bash
-echo "🔐 Cargando todas las claves SSH con keychain..."
-
-SSH_DIR="$HOME/.ssh"
-
-# Buscar todas las claves id_ed25519* (excepto .pub)
-for KEY in "$SSH_DIR"/id_ed25519*; do
-    [[ $KEY == *.pub ]] && continue
-    keychain --quiet --eval "$KEY"
-done
-
-# Cargar keychain
-KEYCHAIN_FILE="$HOME/.keychain/$(hostname)-sh"
-[ -f "$KEYCHAIN_FILE" ] && source "$KEYCHAIN_FILE" 2>/dev/null
-
-echo "SSH Agent listo. Claves cargadas:"
-ssh-add -l
+echo "🔐 Cargando claves SSH mediante keychain..."
+keychain --quiet --eval ~/.ssh/id_ed25519_$GH_EMAIL > /tmp/keychain_env
+source /tmp/keychain_env
+echo "SSH Agent listo."
 EOF
 
-sudo chmod +x /usr/local/bin/iniciar-ssh
-log_ok "Comando iniciar-ssh creado (carga automática de todas las claves)"
+sudo chmod +x /usr/local/bin/iniciar-ssh.sh
 
-# Recargar el archivo .bashrc
-source "$BASHRC"
+log_step "=== Insertando configuración en .bashrc (si no existe) ==="
 
-# ========= FINAL =========
-log_ok "Configuración completada 🎉"
+BASHRC="$HOME/.bashrc"
+
+ensure_line() {
+    grep -qxF "$1" "$BASHRC" || echo "$1" >> "$BASHRC"
+}
+
+ensure_line ''
+ensure_line '# Carga automática de SSH keychain'
+ensure_line 'if [ -f "$HOME/.keychain/$(hostname)-sh" ]; then'
+ensure_line '    . "$HOME/.keychain/$(hostname)-sh"'
+ensure_line 'elif [ -f "$HOME/.keychain/$(hostname)-xorg-sh" ]; then'
+ensure_line '    . "$HOME/.keychain/$(hostname)-xorg-sh"'
+ensure_line 'fi'
+ensure_line 'alias iniciar-ssh="/usr/local/bin/iniciar-ssh.sh"'
+ensure_line ''
+
+log_ok "=== Configuración completada ==="
 log_ok "👍 Git Credential Manager activado"
 log_ok "🔐 Keychain configurado"
 log_ok "▶️ Puedes ejecutar: iniciar-ssh"
 log_ok "🔁 Tras reiniciar, SSH estará siempre listo."
 log_ok "🎉 Sistema preparado para deploys automáticos 🚀"
-echo
-echo "➡ Copiá tu clave pública a GitHub:"
-echo
-echo "   cat ~/.ssh/id_ed25519.pub"
-echo
-echo "➡ O ejecutá:"
-echo "   iniciar-ssh"
-
-
-

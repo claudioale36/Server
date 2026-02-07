@@ -1,0 +1,139 @@
+Welcome to the Boxstarter Module installer!
+Chocolatey is going to be downloaded and installed on your machine. If you do not have the .NET Framework Version 4 or greater, that will also be downloaded and installed.                                                                                                                                                                                             Installing Chocolatey                                                                                                   Do you want to proceed?                                                                                                 [Y] Yes  [N] No  [?] Ayuda (el valor predeterminado es "Y"): y                                                          Forcing web requests to allow TLS v1.2 (Required for requests to Chocolatey.org)                                        Getting latest version of the Chocolatey package for download.
+Not using proxy.
+Getting Chocolatey from https://community.chocolatey.org/api/v2/package/chocolatey/2.6.0.
+Downloading https://community.chocolatey.org/api/v2/package/chocolatey/2.6.0 to C:\Users\Oficina\AppData\Local\Temp\chocolatey\chocoInstall\chocolatey.zip
+Not using proxy.
+Extracting C:\Users\Oficina\AppData\Local\Temp\chocolatey\chocoInstall\chocolatey.zip to C:\Users\Oficina\AppData\Local\Temp\chocolatey\chocoInstall
+Installing Chocolatey on the local machine
+WARNING: It's very likely you will need to close and reopen your shell
+  before you can use choco.
+PATH environment variable does not have C:\ProgramData\chocolatey\bin in it. Adding...
+ADVERTENCIA: Not setting tab completion: Profile file does not exist at
+'C:\Users\Oficina\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1'.
+Ensuring Chocolatey commands are on the path
+Ensuring chocolatey.nupkg is in the lib folder
+Chocolatey installed, Installing Boxstarter Modules.
+Chocolatey v2.6.0
+Installing the following packages:
+Boxstarter
+By installing, you accept licenses for the packages.
+Downloading package from source 'https://community.chocolatey.org/api/v2/'
+Progress: Downloading BoxStarter.Common 3.0.3... 100%
+
+Boxstarter.Common v3.0.3 [Approved]
+Boxstarter.Common package files install completed. Performing other installation steps.
+Restricting write permissions of 'C:\ProgramData\Boxstarter' to Administrators
+The Boxstarter.Common Module has been copied to C:\ProgramData\Boxstarter and added to your Module path.
+You will need to open a new console for the path to be visible.
+Use 'Get-Module Boxstarter.* -ListAvailable' to list all Boxstarter Modules.
+To list all available Boxstarter Commands, use:
+PS:>Import-Module Boxstarter.Common
+PS:>Get-Command -Module Boxstarter.*
+
+To find more info visit https://Boxstarter.org or use:
+PS:>Import-Module Boxstarter.Common
+PS:>Get-Help Boxstarter
+Environment Vars (like PATH) have changed. Close/reopen your shell to
+ see the changes (or in powershell/cmd.exe just type `refreshenv`).
+ The install of Boxstarter.Common was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+Downloading package from source 'https://community.chocolatey.org/api/v2/'
+Progress: Downloading BoxStarter.WinConfig 3.0.3... 100%
+
+Boxstarter.WinConfig v3.0.3 [Approved]
+Boxstarter.WinConfig package files install completed. Performing other installation steps.
+Restricting write permissions of 'C:\ProgramData\Boxstarter' to Administrators
+The Boxstarter.WinConfig Module has been copied to C:\ProgramData\Boxstarter and added to your Module path.
+You will need to open a new console for the path to be visible.
+Use 'Get-Module Boxstarter.* -ListAvailable' to list all Boxstarter Modules.
+To list all available Boxstarter Commands, use:
+PS:>Import-Module Boxstarter.WinConfig
+PS:>Get-Command -Module Boxstarter.*
+
+To find more info visit https://Boxstarter.org or use:
+PS:>Import-Module Boxstarter.WinConfig
+PS:>Get-Help Boxstarter
+ The install of Boxstarter.WinConfig was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+Downloading package from source 'https://community.chocolatey.org/api/v2/'
+Progress: Downloading boxstarter.bootstrapper 3.0.3... 100%
+
+Boxstarter.Bootstrapper v3.0.3 [Approved]
+Boxstarter.Bootstrapper package files install completed. Performing other installation steps.
+Restricting write permissions of 'C:\ProgramData\Boxstarter' to Administrators
+The Boxstarter.Bootstrapper Module has been copied to C:\ProgramData\Boxstarter and added to your Module path.
+You will need to open a new console for the path to be visible.
+Use 'Get-Module Boxstarter.* -ListAvailable' to list all Boxstarter Modules.
+To list all available Boxstarter Commands, use:
+PS:>Import-Module Boxstarter.Bootstrapper
+PS:>Get-Command -Module Boxstarter.*
+
+To find more info visit https://Boxstarter.org or use:
+PS:>Import-Module Boxstarter.Bootstrapper
+PS:>Get-Help Boxstarter
+ The install of Boxstarter.Bootstrapper was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+Downloading package from source 'https://community.chocolatey.org/api/v2/'
+Progress: Downloading boxstarter.chocolatey 3.0.3... 100%
+
+Boxstarter.Chocolatey v3.0.3 [Approved]
+Boxstarter.Chocolatey package files install completed. Performing other installation steps.
+Restricting write permissions of 'C:\ProgramData\Boxstarter' to Administrators
+The Boxstarter.Chocolatey Module has been copied to C:\ProgramData\Boxstarter and added to your Module path.
+You will need to open a new console for the path to be visible.
+Use 'Get-Module Boxstarter.* -ListAvailable' to list all Boxstarter Modules.
+To list all available Boxstarter Commands, use:
+PS:>Import-Module Boxstarter.Chocolatey
+PS:>Get-Command -Module Boxstarter.*
+
+To find more info visit https://Boxstarter.org or use:
+PS:>Import-Module Boxstarter.Chocolatey
+PS:>Get-Help Boxstarter
+ The install of Boxstarter.Chocolatey was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+Downloading package from source 'https://community.chocolatey.org/api/v2/'
+Progress: Downloading Boxstarter.HyperV 3.0.3... 100%
+
+Boxstarter.HyperV v3.0.3 [Approved]
+Boxstarter.HyperV package files install completed. Performing other installation steps.
+Restricting write permissions of 'C:\ProgramData\Boxstarter' to Administrators
+The Boxstarter.HyperV Module has been copied to C:\ProgramData\Boxstarter and added to your Module path.
+You will need to open a new console for the path to be visible.
+Use 'Get-Module Boxstarter.* -ListAvailable' to list all Boxstarter Modules.
+To list all available Boxstarter Commands, use:
+PS:>Import-Module Boxstarter.HyperV
+PS:>Get-Command -Module Boxstarter.*
+
+To find more info visit https://Boxstarter.org or use:
+PS:>Import-Module Boxstarter.HyperV
+PS:>Get-Help Boxstarter
+ The install of Boxstarter.HyperV was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+Downloading package from source 'https://community.chocolatey.org/api/v2/'
+Progress: Downloading boxstarter 3.0.3... 100%
+
+Boxstarter v3.0.3 [Approved]
+Boxstarter package files install completed. Performing other installation steps.
+To load all Boxstarter Modules immediately, just enter 'BoxstarterShell'.
+Interested in Windows Azure VM integration? Run CINST Boxstarter.Azure to install Boxstarter's Azure integration.
+ The install of Boxstarter was successful.
+  Software install location not explicitly set, it could be in package or
+  default install location of installer.
+
+Chocolatey installed 6/6 packages.
+ See the log for details (C:\ProgramData\chocolatey\logs\chocolatey.log).
+
+Installed:
+ - Boxstarter v3.0.3
+ - Boxstarter.Bootstrapper v3.0.3
+ - Boxstarter.Chocolatey v3.0.3
+ - Boxstarter.Common v3.0.3
+ - Boxstarter.HyperV v3.0.3
+ - Boxstarter.WinConfig v3.0.3
+Boxstarter Module Installer completed:

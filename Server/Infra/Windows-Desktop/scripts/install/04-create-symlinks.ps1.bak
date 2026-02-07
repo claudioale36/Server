@@ -1,0 +1,112 @@
+# ---------------------------------------------
+# Script para crear varios enlaces simbólicos
+# ---------------------------------------------
+# Requiere PowerShell ejecutado como Administrador
+# ---------------------------------------------
+
+# Lista de programas a procesar
+$symlinks = @(
+    @{
+        Name = "Claude"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\AnthropicClaude"
+    },
+    @{
+        Name = "Bitwarden Updater"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\bitwarden-updater"
+    },
+    @{
+        Name = "Chromium"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\UnGoogled Chromium\Chromium"
+    },
+    @{
+        Name = "KDE Connect"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\kdeconnect"
+    },
+    @{
+        Name = "KDE Connect App"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\kdeconnect.app"
+    },
+    @{
+        Name = "Firefox"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\Mozilla"
+    },
+    @{
+        Name = "Obsidian Updater"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\obsidian-updater"
+    },
+    @{
+        Name = "One Drive"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\OneDrive"
+    },
+    @{
+        Name = "Open Data Platform by OpenBB"
+        Source = "C:\Users\Oficina\AppData\Local"
+        Destination = "D:\apps\Users\USER\AppData\Local\Open Data Platform by OpenBB"
+    },
+    @{
+        Name = "Bitwarden"
+        Source = "C:\Users\Oficina\AppData\Local\Programs"
+        Destination = "D:\apps\Users\USER\AppData\Local\Programs\Bitwarden"
+    },
+    @{
+        Name = "Claude"
+        Source = "C:\Users\Oficina\AppData\Roaming"
+        Destination ="D:\apps\Users\USER\AppData\Roaming\Claude"
+    },
+    @{
+        Name = "Mozilla"
+        Source = "C:\Users\Oficina\AppData\Roaming"
+        Destination = "D:\apps\Users\USER\AppData\Roaming\Mozilla"
+    },
+    @{
+        Name = "Obsidian"
+        Source = "C:\Users\Oficina\AppData\Roaming"
+        Destination = "D:\apps\Users\USER\AppData\Roaming\obsidian"
+    }
+)
+
+foreach ($item in $symlinks) {
+    Write-Host "`nProcesando $($item.Name)..."
+
+    $source = $item.Source
+    $destination = $item.Destination
+
+    # Verificar si la carpeta destino existe, si no, crearla
+    if (-not (Test-Path $destination)) {
+        Write-Host "Creando carpeta destino: $destination"
+        New-Item -ItemType Directory -Path $destination | Out-Null
+    }
+
+    # Verificar si la carpeta origen existe
+    if (Test-Path $source) {
+
+        # Verificar si ya es un symlink
+        $itemInfo = Get-Item $source -Force
+        if ($itemInfo.LinkType -eq 'SymbolicLink') {
+            Write-Host "Ya existe un symlink en $source → se salta."
+            continue
+        }
+
+        # Mover la carpeta origen al destino
+        Write-Host "Moviendo $source → $destination"
+        Move-Item -Path $source -Destination $destination -Force
+    } else {
+        Write-Host "No existe carpeta origen $source, se creará solo el symlink."
+    }
+
+    # Crear el symlink
+    Write-Host "Creando symlink: $source → $destination"
+    New-Item -ItemType SymbolicLink -Path $source -Target $destination | Out-Null
+
+    Write-Host "$($item.Name) listo ✅"
+}
+
+Write-Host "`nTodos los enlaces simbólicos fueron procesados."

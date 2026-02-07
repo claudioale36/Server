@@ -1,0 +1,84 @@
+Dijiste:
+Hola Chat. Ayudame a desactivar SmartAppControl desde regedit en Windows.
+Estoy teniendo problemas con pruebas de una App Propia
+
+ChatGPT dijo:
+
+¡Claro! Vamos al grano 😊
+Smart App Control puede bloquear apps propias/no firmadas y es un dolor para pruebas.
+⚠️ Aviso rápido antes de tocar el registro
+
+    Esto solo funciona en Windows 11 22H2 o superior.
+
+    Necesitas permisos de administrador.
+
+    Si Smart App Control está en modo “Evaluación”, a veces Windows lo vuelve a activar solo. Aun así, para pruebas suele servir.
+
+🧩 Desactivar Smart App Control desde el Registro (regedit)
+1️⃣ Abrir el Editor del Registro
+
+    Presiona Win + R
+
+    Escribe: regedit
+
+    Enter → acepta el UAC
+
+2️⃣ Ir a la clave correcta
+
+Navega hasta:
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy
+
+3️⃣ Modificar (o crear) el valor clave
+
+Busca un valor DWORD (32 bits) llamado:
+
+VerifiedAndReputablePolicyState
+
+Si no existe:
+
+    Click derecho → Nuevo → Valor DWORD (32 bits)
+
+    Nombre exacto: VerifiedAndReputablePolicyState
+
+4️⃣ Asignar el valor correcto
+
+Haz doble clic y pon:
+
+0
+
+Valor	Estado
+0	❌ Desactivado
+1	🧪 Evaluación
+2	✅ Activado
+
+Asegúrate de que esté en Hexadecimal (por defecto).
+5️⃣ Reinicia el sistema
+
+⚠️ Obligatorio, si no, Windows ignora el cambio.
+🔍 Verificación
+
+Después del reinicio:
+
+    Configuración → Seguridad de Windows → Control de apps y navegador
+
+    Smart App Control debería figurar como Desactivado
+
+💡 Tips útiles para desarrollo
+
+Si sigues teniendo bloqueos:
+
+    Revisa Windows Defender → Historial de protección
+
+    Considera firmar la app con un certificado de prueba
+
+    O ejecuta la app desde una carpeta excluida en Defender (solo para dev)
+
+Si quieres, dime:
+
+    👉 Tipo de app (Win32, .NET, Electron, UWP, etc.)
+
+    👉 Mensaje exacto de bloqueo
+    y lo afinamos para tu escenario de pruebas 🔧😄
+
+

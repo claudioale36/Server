@@ -1,0 +1,90 @@
+; ===============================================================================
+; execution-policy.txt
+; ===============================================================================
+; Group Policy para configurar ejecución sin restricciones
+; Aplicar con: LGPO.exe /t execution-policy.txt
+; ===============================================================================
+
+; PowerShell Execution Policy = Unrestricted
+Computer
+Software\Policies\Microsoft\Windows\PowerShell
+ExecutionPolicy
+SZ:Unrestricted
+
+Computer
+Software\Policies\Microsoft\Windows\PowerShell
+EnableScripts
+DWORD:1
+
+; Permitir scripts locales
+Computer
+Software\Policies\Microsoft\Windows\PowerShell
+EnableUpdateHelpDefaultSourcePath
+DWORD:1
+
+; Desactivar restricciones de Software
+Computer
+Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers
+DefaultLevel
+DWORD:262144
+
+Computer
+Software\Policies\Microsoft\Windows\Safer\CodeIdentifiers
+TransparentEnabled
+DWORD:1
+
+; Permitir ejecución desde ubicaciones no confiables
+User
+Software\Microsoft\Windows\CurrentVersion\Policies\Associations
+LowRiskFileTypes
+SZ:.exe;.msi;.bat;.cmd;.ps1;.vbs;.js;.reg;.dll;.ocx
+
+; No bloquear archivos descargados
+User
+Software\Microsoft\Windows\CurrentVersion\Policies\Attachments
+SaveZoneInformation
+DWORD:2
+
+User
+Software\Microsoft\Windows\CurrentVersion\Policies\Attachments
+ScanWithAntiVirus
+DWORD:3
+
+; Permitir apps sideload
+Computer
+Software\Policies\Microsoft\Windows\AppPrivacy
+LetAppsRunInBackground
+DWORD:1
+
+; App Installer sin restricciones
+Computer
+Software\Policies\Microsoft\Windows\AppInstaller
+EnableAppInstaller
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows\AppInstaller
+EnableHashOverride
+DWORD:1
+
+Computer
+Software\Policies\Microsoft\Windows\AppInstaller
+EnableLocalManifestFiles
+DWORD:1
+
+; Desactivar restricciones de MSI
+Computer
+Software\Policies\Microsoft\Windows\Installer
+DisableMSI
+DWORD:0
+
+; Permitir ejecución desde cualquier ubicación
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+NoRunFromRemovableDevices
+DWORD:0
+
+Computer
+Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+NoRunFromNetworkDrives
+DWORD:0

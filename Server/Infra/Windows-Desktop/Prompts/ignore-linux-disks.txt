@@ -1,0 +1,21 @@
+=== INFORMACIÓN Y STACK ===
+1- Mi stack de Hardware:
+a. Utilizo Linux como sistema operativo principal (Disco SSD propio formato BTRFS).
+b. Utilizo Windows 11 como sistema operativo secundario (Disco SSD propio). Este disco Contiene la tipica particion "(C:)", y una partición adicional "(D:)" para archivos y datos de programas que trato de hacer persistentes entre reinstalaciones del Sistema.
+c. Disco adicional formato ext4 para archivos (utilizado por Linux).
+
+=== PROBLEMAS ===
+He experimentado que Windows baja drasticamente su rendimiento cuando detecta discos Linux, o bien, los discos Linux (o Grub), se "entrometen" con el disco Windows. Causando que el SO Windows quede inutilizable por su lentitud. El monitor del sistema muestra 100% de uso del disco.
+
+- He realizado una instalacion limpia de Windows 11, y nuestro objetivo es evitar que esto vuelva a ocurrir. Para lograr esto, ya he configurado Linux para que ignore COMPLETAMENTE el disco Windows, incluso que Grub no lo escanee.
+
+=== OBJETIVOS E INTENCIÓN ===
+- Nuestro objetivo radica ahora en trabajar sobre Windows, y asegurarnos que ignore los discos Linux, evitando este problema (por ejemplo jamas intentar indexarlos).
+Crea una linea en Powershell para asegurarnos que Windows ignore completamente estos discos.
+Las identificaciones de mis discos Linux son las siguientes según "Administrador de discos de Linux":
+· Dispositivo "/dev/sda" con UUID "332a6878-d0b8-4a4b-a633-35830369b48e". Solo tiene una particion "sda1" (Disco de datos ext4).
+· Dispositivo "/dev/sdc", Disco btrfs del sistema, tiene 4 particiones:
+Espacio libre (aparece como particion aunque no tenga formato ni identificacion).
+/dev/sdc1 (Sistema EFI): B5FE-D10B
+/dev/sdc2 (BTRFS): 31709fbb-cff0-4995-826c-720a8a2b0c9e
+/dev/sdc3 (Particion personalizada para configs ext4): c229ea02-2e0b-4d5f-a4c3-948600c6634d
